@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>708</width>
+    <height>440</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>FCC</string>
+  </property>
+  <widget class="QWidget" name="centralWidget"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>708</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <addaction name="actionQuit"/>
+   </widget>
+   <widget class="QMenu" name="menuDocumets">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Documets</string>
+    </property>
+    <addaction name="actionOrders"/>
+    <addaction name="actionSales_Filial"/>
+    <addaction name="actionSales_All"/>
+   </widget>
+   <widget class="QMenu" name="menuAdmin">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Admin</string>
+    </property>
+    <addaction name="actionCategory"/>
+    <addaction name="actionUsers"/>
+    <addaction name="actionRoles"/>
+    <addaction name="actionRights"/>
+   </widget>
+   <widget class="QMenu" name="menuReports">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Reports</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuApp">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>App</string>
+    </property>
+   </widget>
+   <widget class="QMenu" name="menuCallCenter">
+    <property name="title">
+     <string>CallCenter</string>
+    </property>
+    <addaction name="actionResiduesCenter"/>
+    <addaction name="actionPrepare"/>
+   </widget>
+   <widget class="QMenu" name="menuFilial">
+    <property name="title">
+     <string>Filial</string>
+    </property>
+    <addaction name="actionResiduesFilial"/>
+   </widget>
+   <addaction name="menuFile"/>
+   <addaction name="menuCallCenter"/>
+   <addaction name="menuFilial"/>
+   <addaction name="menuDocumets"/>
+   <addaction name="menuAdmin"/>
+   <addaction name="menuReports"/>
+   <addaction name="menuApp"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+   <addaction name="separator"/>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionQuit">
+   <property name="text">
+    <string>&amp;Quit</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
+  </action>
+  <action name="actionResiduesCenter">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Residues</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionResiduesFilial">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Residues</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+F</string>
+   </property>
+  </action>
+  <action name="actionOrders">
+   <property name="text">
+    <string>Orders</string>
+   </property>
+  </action>
+  <action name="actionSales_Filial">
+   <property name="text">
+    <string>Sales Filial</string>
+   </property>
+  </action>
+  <action name="actionSales_All">
+   <property name="text">
+    <string>Sales All</string>
+   </property>
+  </action>
+  <action name="actionCategory">
+   <property name="text">
+    <string>Category</string>
+   </property>
+  </action>
+  <action name="actionUsers">
+   <property name="text">
+    <string>Users</string>
+   </property>
+  </action>
+  <action name="actionRoles">
+   <property name="text">
+    <string>Roles</string>
+   </property>
+  </action>
+  <action name="actionRights">
+   <property name="text">
+    <string>Rights</string>
+   </property>
+  </action>
+  <action name="actionPrepare">
+   <property name="text">
+    <string>Prepare</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+D</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>actionQuit</sender>
+   <signal>triggered(bool)</signal>
+   <receiver>MainWindow</receiver>
+   <slot>close()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>-1</x>
+     <y>-1</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>341</x>
+     <y>213</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>openDialog()</slot>
+ </slots>
+</ui>
