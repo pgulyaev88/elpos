@@ -27,3 +27,6 @@ FORMS    += mainwindow.ui \
     residuescenterform.ui \
     residuesfilialform.ui \
     preparecenterform.ui
+
+OTHER_FILES += \
+    ../../Downloads/fcc.sql

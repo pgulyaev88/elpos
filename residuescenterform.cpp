@@ -1,3 +1,8 @@
+#include <QtCore>
+#include <QtGui>
+#include <QtSql>
+#include <QTimer>
+#include <QStatusBar>
 #include "residuescenterform.h"
 #include "ui_residuescenterform.h"
 
@@ -33,10 +38,6 @@ void residuesCenterForm::stopUpdate(){
     qDebug() << "Stop Update";
 }
 
-void residuesCenterForm::updateResidues(){
-
-}
-
 void residuesCenterForm::getResiduesList(){
 
     QSqlDatabase::database();
@@ -51,6 +52,10 @@ void residuesCenterForm::getResiduesList(){
     ui->tableView->setModel(dataView);
     ui->tableView->hideColumn(0);
     ui->tableView->verticalHeader()->hide();
+}
+
+void residuesCenterForm::updateResidues(){
+
 }
 
 void residuesCenterForm::dataToTable(){

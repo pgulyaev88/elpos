@@ -1,3 +1,8 @@
+#include <QtCore>
+#include <QtGui>
+#include <QtSql>
+#include <QTimer>
+#include <QStatusBar>
 #include "residuesfilialform.h"
 #include "ui_residuesfilialform.h"
 
