@@ -29,4 +29,4 @@ FORMS    += mainwindow.ui \
     preparecenterform.ui
 
 OTHER_FILES += \
-    ../../Downloads/fcc.sql
+    fcc.sql
