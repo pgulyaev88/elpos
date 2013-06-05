@@ -9,28 +9,28 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1143</width>
-    <height>750</height>
+    <width>744</width>
+    <height>504</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Residues Center</string>
   </property>
-  <widget class="QTableView" name="tableView">
+  <widget class="QTableView" name="centerTableView">
    <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>1121</width>
-     <height>691</height>
+     <width>721</width>
+     <height>451</height>
     </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="pushButtonUpdate">
    <property name="geometry">
     <rect>
-     <x>1050</x>
-     <y>710</y>
+     <x>660</x>
+     <y>470</y>
      <width>75</width>
      <height>23</height>
     </rect>

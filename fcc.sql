@@ -9,14 +9,14 @@ SET check_function_bodies = false;
 SET client_min_messages = warning;
 
 --
--- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner:
 --
 
 CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
 
 
 --
--- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner:
 --
 
 COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
@@ -160,36 +160,81 @@ CREATE DOMAIN "DTIMESTAMP" AS timestamp without time zone;
 ALTER DOMAIN public."DTIMESTAMP" OWNER TO fcc;
 
 --
--- Name: getResidues(integer); Type: FUNCTION; Schema: public; Owner: fcc
+-- Name: getResiduesCenter(); Type: FUNCTION; Schema: public; Owner: fcc
 --
 
-CREATE FUNCTION "getResidues"(userid integer) RETURNS TABLE(id integer, menuname "DNAME", username "DNAME", count "DCOUNT", counts "DCOUNT", lastupdate "DTIMESTAMP")
+CREATE FUNCTION "getResiduesCenter"() RETURNS TABLE(id integer, menuname "DNAME", username "DNAME", count "DCOUNT", counts "DCOUNT", lastupdate "DTIMESTAMP")
+    LANGUAGE plpgsql STRICT
+    AS $$
+
+BEGIN
+
+RETURN QUERY SELECT r.id AS id, m.name AS menuname, u.name AS username, r.count, r.counts, r.lastupdate
+
+FROM residues r
+
+LEFT JOIN menu m ON m.menu_id = r.menu_id
+
+LEFT JOIN users u ON u.users_id = r.users_id
+
+WHERE r.deleted='0'
+
+AND u.deleted='0'
+
+AND m.deleted='0';
+
+END;
+
+$$;
+
+
+ALTER FUNCTION public."getResiduesCenter"() OWNER TO fcc;
+
+--
+-- Name: getResiduesFilial(integer); Type: FUNCTION; Schema: public; Owner: fcc
+--
+
+CREATE FUNCTION "getResiduesFilial"(userid integer) RETURNS TABLE(id integer, menuname "DNAME", count "DCOUNT", countcurrent "DCOUNT", lastupdate "DTIMESTAMP")
     LANGUAGE plpgsql
-    AS $_$
-DECLARE
-userid ALIAS FOR $1;
-
-BEGIN
-PERFORM r.id AS id, m.name AS menuname, u.name AS username, r.count, r.counts, r.lastupdate
-FROM residues r
-LEFT JOIN menu m ON m.menu_id = r.menu_id
-LEFT JOIN users u ON u.users_id = r.users_id
-WHERE r.deleted='0'
-AND u.deleted='0'
-AND m.deleted='0'
-AND r.users_id=userid;
-END;
+    AS $_$
+
+DECLARE
+
+userid ALIAS FOR $1;
+
+
+
+BEGIN
+
+RETURN QUERY SELECT r.id AS id, m.name AS menuname, r.count, r.counts, r.lastupdate
+
+FROM residues r
+
+LEFT JOIN menu m ON m.menu_id = r.menu_id
+
+LEFT JOIN users u ON u.users_id = r.users_id
+
+WHERE r.deleted='0'
+
+AND u.deleted='0'
+
+AND m.deleted='0'
+
+AND r.users_id=userid;
+
+END;
+
 $_$;
 
 
-ALTER FUNCTION public."getResidues"(userid integer) OWNER TO fcc;
+ALTER FUNCTION public."getResiduesFilial"(userid integer) OWNER TO fcc;
 
 SET default_tablespace = '';
 
 SET default_with_oids = false;
 
 --
--- Name: dates; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: dates; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE dates (
@@ -224,7 +269,7 @@ ALTER SEQUENCE dates_dates_id_seq OWNED BY dates.dates_id;
 
 
 --
--- Name: menu; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: menu; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE menu (
@@ -272,7 +317,7 @@ ALTER SEQUENCE menu_menu_id_seq OWNED BY menu.menu_id;
 
 
 --
--- Name: menucategory; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: menucategory; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE menucategory (
@@ -311,7 +356,7 @@ ALTER SEQUENCE menucategory_category_id_seq OWNED BY menucategory.category_id;
 
 
 --
--- Name: menutype; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: menutype; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE menutype (
@@ -346,7 +391,7 @@ ALTER SEQUENCE menutype_type_id_seq OWNED BY menutype.type_id;
 
 
 --
--- Name: prepare; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: prepare; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE prepare (
@@ -365,7 +410,7 @@ ALTER TABLE ONLY prepare ALTER COLUMN takeaway SET STATISTICS 0;
 ALTER TABLE public.prepare OWNER TO fcc;
 
 --
--- Name: prepare2; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: prepare2; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE prepare2 (
@@ -426,7 +471,7 @@ ALTER SEQUENCE prepare_prepare_id_seq OWNED BY prepare.prepare_id;
 
 
 --
--- Name: residues; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: residues; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE residues (
@@ -471,7 +516,7 @@ ALTER SEQUENCE residues_residues_id_seq OWNED BY residues.id;
 
 
 --
--- Name: rights; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: rights; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE rights (
@@ -505,7 +550,7 @@ ALTER SEQUENCE rights_rights_id_seq OWNED BY rights.rights_id;
 
 
 --
--- Name: roles; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: roles; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE roles (
@@ -539,7 +584,7 @@ ALTER SEQUENCE roles_roles_id_seq OWNED BY roles.roles_id;
 
 
 --
--- Name: rolesrights; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: rolesrights; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE rolesrights (
@@ -579,7 +624,7 @@ ALTER SEQUENCE rolesrights_rolesrights_id_seq OWNED BY rolesrights.rolesrights_i
 
 
 --
--- Name: times; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: times; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE times (
@@ -614,7 +659,7 @@ ALTER SEQUENCE times_times_id_seq OWNED BY times.times_id;
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: fcc; Tablespace: 
+-- Name: users; Type: TABLE; Schema: public; Owner: fcc; Tablespace:
 --
 
 CREATE TABLE users (
@@ -1249,7 +1294,7 @@ SELECT pg_catalog.setval('users_users_id_seq', 8, true);
 
 
 --
--- Name: dates_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: dates_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY dates
@@ -1257,7 +1302,7 @@ ALTER TABLE ONLY dates
 
 
 --
--- Name: menu_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: menu_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY menu
@@ -1265,7 +1310,7 @@ ALTER TABLE ONLY menu
 
 
 --
--- Name: menucategory_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: menucategory_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY menucategory
@@ -1273,7 +1318,7 @@ ALTER TABLE ONLY menucategory
 
 
 --
--- Name: menutype_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: menutype_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY menutype
@@ -1281,7 +1326,7 @@ ALTER TABLE ONLY menutype
 
 
 --
--- Name: prepare2_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: prepare2_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY prepare2
@@ -1289,7 +1334,7 @@ ALTER TABLE ONLY prepare2
 
 
 --
--- Name: prepare_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: prepare_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY prepare
@@ -1297,7 +1342,7 @@ ALTER TABLE ONLY prepare
 
 
 --
--- Name: residues_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: residues_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY residues
@@ -1305,7 +1350,7 @@ ALTER TABLE ONLY residues
 
 
 --
--- Name: rights_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: rights_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY rights
@@ -1313,7 +1358,7 @@ ALTER TABLE ONLY rights
 
 
 --
--- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: roles_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY roles
@@ -1321,7 +1366,7 @@ ALTER TABLE ONLY roles
 
 
 --
--- Name: rolesrights_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: rolesrights_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY rolesrights
@@ -1329,7 +1374,7 @@ ALTER TABLE ONLY rolesrights
 
 
 --
--- Name: times_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: times_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY times
@@ -1337,7 +1382,7 @@ ALTER TABLE ONLY times
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace: 
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: fcc; Tablespace:
 --
 
 ALTER TABLE ONLY users
@@ -1357,4 +1402,3 @@ GRANT ALL ON SCHEMA public TO PUBLIC;
 --
 -- PostgreSQL database dump complete
 --
-

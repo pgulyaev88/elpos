@@ -15,6 +15,9 @@ class residuesCenterForm : public QWidget
     Q_OBJECT
     
 public:
+    int widthTableCenter;
+    int heightTableCenter;
+
     explicit residuesCenterForm(QWidget *parent = 0);
     ~residuesCenterForm();
 
@@ -25,24 +28,24 @@ protected:
 
 private slots:
     void getResiduesList();
-    void updateResidues();
+    void updateResiduesCenter();
     void startUpdate();
     void stopUpdate();
     void dataToTable();
 
 private:
     Ui::residuesCenterForm *ui;
-    QTimer *timer;
-    int step;
-    int usersID;
-    int residuesID;
-    int menusID;
-    QString mname;
-    QString uname;
-    int residuesCount;
-    int residuesCountSP;
+    QTimer *timerCenter;
+    int stepCenter;
+    int usersIdCenter;
+    int residuesIdCenter;
+    int menusIdCenter;
+    QString mnameCenter;
+    QString unameCenter;
+    int residuesCountCenter;
+    int residuesCountCurrentCenter;
 //    QString lastUpdate;
-    QDateTime lastUpdate;
+    QDateTime lastUpdateCenter;
 
 };
 

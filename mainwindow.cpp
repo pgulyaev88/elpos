@@ -29,16 +29,19 @@ MainWindow::MainWindow(QWidget *parent) :
     connect(ui->actionResiduesCenter,SIGNAL(triggered(bool)),this,SLOT(openResiduesCenter()));
     connect(ui->actionResiduesFilial,SIGNAL(triggered(bool)),this,SLOT(openResiduesFilial()));
     connect(ui->actionPrepare,SIGNAL(triggered(bool)),this,SLOT(openPrepareCenter()));
-    int widthtmp = QApplication::desktop()->width();
-    int heighttmp = QApplication::desktop()->height();
+    int width = QApplication::desktop()->width();
+    int height = QApplication::desktop()->height();
 
-    int width = widthtmp-5;
-    int height = heighttmp-80;
+    int widthtmp = width-5;
+    int heighttmp = height-80;
 
     qDebug() << "width-main: " << width;
     qDebug() << "height-main: " << height;
 
-    MainWindow::resize(width,height);
+    qDebug() << "widthtmp-main: " << widthtmp;
+    qDebug() << "heighttmp-main: " << heighttmp;
+
+    MainWindow::resize(widthtmp,heighttmp);
     MainWindow::showMaximized();
     getSettings();
 //    openPrepareCenter();
@@ -50,14 +53,17 @@ void MainWindow::getSettings(){
     QSettings *settings = new QSettings(fileName,QSettings::IniFormat);
     if(settings->value("restaurant/id").isNull()){
        settings->setValue("restaurant/id",1);
+    } else {
+        idRest = settings->value("restaurant/id").toInt();
     }
-    qDebug() << "Restaurant ID:" << idRest;
+        qDebug() << "Restaurant ID:" << idRest;
 
-    restName = settings->value("restaurant/restname").toString();
     if(settings->value("restaurant/restname").isNull()){
         settings->setValue("restaurant/restname","Rest");
+    } else {
+        restName = settings->value("restaurant/restname").toString();
     }
-       qDebug() << "Restaurant Name:" << restName;
+        qDebug() << "Restaurant Name:" << restName;
 }
 
 void MainWindow::loadDatabaseConnection(){

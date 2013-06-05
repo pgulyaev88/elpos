@@ -21,6 +21,10 @@ protected:
 public:
     int idRest;
     QString restName;
+
+    int width;
+    int height;
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
 

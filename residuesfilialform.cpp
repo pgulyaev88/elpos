@@ -10,64 +10,68 @@ residuesFilialForm::residuesFilialForm(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::residuesFilialForm)
 {
-    timerFilial = new QTimer(this);
-    connect(timerFilial, SIGNAL(timeout()),this,SLOT(update()));
-    getResiduesListFilial();
-
     ui->setupUi(this);
-}
 
+    int width = QApplication::desktop()->width();
+    int height = QApplication::desktop()->height();
+
+    widthTableFilial = width-20;
+    heightTableFilial = height-115;
+
+    qDebug() << "width-main: " << widthTableFilial;
+    qDebug() << "height-main: " << heightTableFilial;
+
+//    residuesFilialForm::resize(width,height);
+    residuesFilialForm::showMaximized();
+
+    timerFilial = new QTimer(this);
+    timerFilial->setInterval(3000);
+    connect(timerFilial, SIGNAL(timeout()),this,SLOT(update()));
+    connect(ui->pushButton,SIGNAL(clicked()),this,SLOT(dataToTable()));
+    ui->filialTableView->resize(widthTableFilial,heightTableFilial);
+    getResiduesListFilial();
+}
 
 void residuesFilialForm::timerEvent(QTimerEvent *event){
     if(event->timerId() == timerFilial->timerId()){
         ++stepFilial;
-        updateResidues();
-    }
-    else {
+        updateResiduesFilial();
+    } else {
         QObject::timerEvent(event);
     }
 }
 
-void residuesFilialForm::startUpdate(){
+void residuesFilialForm::startUpdateFilial(){
     timerFilial->start();
     qDebug() << "Start Update";
 }
 
-void residuesFilialForm::stopUpdate(){
+void residuesFilialForm::stopUpdateFilial(){
     timerFilial->stop();
     qDebug() << "Stop Update";
-}
-
-void residuesFilialForm::updateResidues(){
-
 }
 
 void residuesFilialForm::getResiduesListFilial(){
 
     QSqlDatabase::database();
     QSqlQueryModel *dataViewFilial = new QSqlQueryModel;
-    dataViewFilial->setQuery("SELECT * FROM public.\"getResidues\"(1)");
-    dataViewFilial->setHeaderData(0,Qt::Horizontal, trUtf8("ID"));
+    dataViewFilial->setQuery("SELECT * FROM public.\"getResiduesFilial\"(1)");
+    dataViewFilial->setHeaderData(0,Qt::Horizontal,trUtf8("ID"));
     dataViewFilial->setHeaderData(1,Qt::Horizontal, trUtf8("Меню"));
-    dataViewFilial->setHeaderData(2,Qt::Horizontal, trUtf8("Точка"));
-    dataViewFilial->setHeaderData(3,Qt::Horizontal, trUtf8("Кол-во"));
-    dataViewFilial->setHeaderData(4,Qt::Horizontal, trUtf8("Срочное кол-во"));
-    dataViewFilial->setHeaderData(5,Qt::Horizontal, trUtf8("Последнее обновлние"));
+    dataViewFilial->setHeaderData(2,Qt::Horizontal, trUtf8("Кол-во"));
+    dataViewFilial->setHeaderData(3,Qt::Horizontal, trUtf8("Срочное Кол-во"));
+    dataViewFilial->setHeaderData(4,Qt::Horizontal, trUtf8("Последнее обновление"));
     ui->filialTableView->setModel(dataViewFilial);
     ui->filialTableView->hideColumn(0);
     ui->filialTableView->verticalHeader()->hide();
 }
 
+void residuesFilialForm::updateResiduesFilial(){
+
+}
+
 void residuesFilialForm::dataToTable(){
-
-}
-
-void residuesFilialForm::saveMenu(){
-
-}
-
-void residuesFilialForm::getMenuId(){
-
+    qDebug() << "Push";
 }
 
 residuesFilialForm::~residuesFilialForm()

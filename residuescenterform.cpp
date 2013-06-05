@@ -11,50 +11,61 @@ residuesCenterForm::residuesCenterForm(QWidget *parent) :
     ui(new Ui::residuesCenterForm)
 {
     ui->setupUi(this);
+
+    int width = QApplication::desktop()->width();
+    int height = QApplication::desktop()->height();
+
+    widthTableCenter = width-20;
+    heightTableCenter = height-115;
+
+    qDebug() << "width-main: " << widthTableCenter;
+    qDebug() << "height-main: " << heightTableCenter;
+
+    ui->centerTableView->resize(widthTableCenter,heightTableCenter);
     residuesCenterForm::showMaximized();
 
-    timer = new QTimer(this);
-    connect(timer, SIGNAL(timeout()),this,SLOT(update()));
+    timerCenter = new QTimer(this);
+    timerCenter->setInterval(3000);
+    connect(timerCenter, SIGNAL(timeout()),this,SLOT(update()));
     getResiduesList();
 }
 
 void residuesCenterForm::timerEvent(QTimerEvent *event){
-    if(event->timerId() == timer->timerId()){
-        ++step;
-        updateResidues();
-    }
-    else {
+    if(event->timerId() == timerCenter->timerId()){
+        ++stepCenter;
+        updateResiduesCenter();
+    } else {
         QObject::timerEvent(event);
     }
 }
 
 void residuesCenterForm::startUpdate(){
-    timer->start();
+    timerCenter->start();
     qDebug() << "Start Update";
 }
 
 void residuesCenterForm::stopUpdate(){
-    timer->stop();
+    timerCenter->stop();
     qDebug() << "Stop Update";
 }
 
 void residuesCenterForm::getResiduesList(){
 
     QSqlDatabase::database();
-    QSqlQueryModel *dataView = new QSqlQueryModel;
-    dataView->setQuery("SELECT * FROM public.\"getResidues\"(1)");
-    dataView->setHeaderData(0,Qt::Horizontal, trUtf8("ID"));
-    dataView->setHeaderData(1,Qt::Horizontal, trUtf8("Меню"));
-    dataView->setHeaderData(2,Qt::Horizontal, trUtf8("Точка"));
-    dataView->setHeaderData(3,Qt::Horizontal, trUtf8("Кол-во"));
-    dataView->setHeaderData(4,Qt::Horizontal, trUtf8("Срочное кол-во"));
-    dataView->setHeaderData(5,Qt::Horizontal, trUtf8("Последнее обновлние"));
-    ui->tableView->setModel(dataView);
-    ui->tableView->hideColumn(0);
-    ui->tableView->verticalHeader()->hide();
+    QSqlQueryModel *dataViewCenter = new QSqlQueryModel;
+    dataViewCenter->setQuery("SELECT * FROM public.\"getResiduesCenter\"()");
+    dataViewCenter->setHeaderData(0,Qt::Horizontal, trUtf8("ID"));
+    dataViewCenter->setHeaderData(1,Qt::Horizontal, trUtf8("Меню"));
+    dataViewCenter->setHeaderData(2,Qt::Horizontal, trUtf8("Точка"));
+    dataViewCenter->setHeaderData(3,Qt::Horizontal, trUtf8("Кол-во"));
+    dataViewCenter->setHeaderData(4,Qt::Horizontal, trUtf8("Срочное кол-во"));
+    dataViewCenter->setHeaderData(5,Qt::Horizontal, trUtf8("Последнее обновлние"));
+    ui->centerTableView->setModel(dataViewCenter);
+    ui->centerTableView->hideColumn(0);
+    ui->centerTableView->verticalHeader()->hide();
 }
 
-void residuesCenterForm::updateResidues(){
+void residuesCenterForm::updateResiduesCenter(){
 
 }
 

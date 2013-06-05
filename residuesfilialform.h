@@ -15,23 +15,24 @@ class residuesFilialForm : public QWidget
     Q_OBJECT
     
 public:
+    int widthTableFilial;
+    int heightTableFilial;
+
     explicit residuesFilialForm(QWidget *parent = 0);
     ~residuesFilialForm();
     
 protected:
     void timerEvent(QTimerEvent *event);
 
+
 private slots:
     void getResiduesListFilial();
-    void updateResidues();
-    void startUpdate();
-    void stopUpdate();
+    void updateResiduesFilial();
+    void startUpdateFilial();
+    void stopUpdateFilial();
     void dataToTable();
-    void getMenuId();
-    void saveMenu();
 
 private:
-    Ui::residuesFilialForm *ui;
     QTimer *timerFilial;
     int stepFilial;
     int usersIdFilial;
@@ -40,9 +41,11 @@ private:
     QString mnameFilial;
     QString unameFilial;
     int residuesCountFilial;
-    int residuesCountSPFilial;
-//    QString lastUpdate;
+    int residuesCountCurrentFilial;
     QDateTime lastUpdateFilial;
+
+    Ui::residuesFilialForm *ui;
+
 };
 
 #endif // RESIDUESFILIALFORM_H
