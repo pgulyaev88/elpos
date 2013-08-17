@@ -41,6 +41,10 @@ MainWindow::MainWindow(QWidget *parent) :
     qDebug() << "widthtmp-main: " << widthtmp;
     qDebug() << "heighttmp-main: " << heighttmp;
 
+//    QTranslator mytranslation ;
+//    mytranslation.load("fcc_ru.ts");
+
+
     MainWindow::resize(widthtmp,heighttmp);
     MainWindow::showMaximized();
     getSettings();
@@ -56,14 +60,14 @@ void MainWindow::getSettings(){
     } else {
         idRest = settings->value("restaurant/id").toInt();
     }
-        qDebug() << "Restaurant ID:" << idRest;
+        qDebug() << trUtf8("Restaurant ID:") << idRest;
 
     if(settings->value("restaurant/restname").isNull()){
         settings->setValue("restaurant/restname","Rest");
     } else {
         restName = settings->value("restaurant/restname").toString();
     }
-        qDebug() << "Restaurant Name:" << restName;
+        qDebug() << trUtf8("Restaurant Name:") << restName;
 }
 
 void MainWindow::loadDatabaseConnection(){
@@ -78,9 +82,10 @@ void MainWindow::loadDatabaseConnection(){
         messbox.setText(QString::fromUtf8("Error connect to database. Please restart programm."));
         messbox.setStandardButtons(QMessageBox::Ok);
         messbox.exec();
+    } else {
+        qDebug() << QObject::trUtf8("Database connect");
+        ui->statusBar->showMessage(trUtf8("Database connect"));
     }
-    qDebug() << QObject::trUtf8("Database connect");
-    ui->statusBar->showMessage(tr("Database connect"));
 }
 
 void MainWindow::openPrepareCenter(){

@@ -43,11 +43,13 @@ void prepareCenterForm::timerEvent(QTimerEvent *event){
 }
 
 void prepareCenterForm::startUpdate(){
-    timerPrepare->stop();
+    timerPrepare->start();
+    qDebug() << trUtf8("Start Timer");
 }
 
 void prepareCenterForm::stopUpdate(){
     timerPrepare->stop();
+    qDebug() << trUtf8("Stop Timer");
 }
 
 void prepareCenterForm::updatePrepare(){
@@ -56,7 +58,7 @@ void prepareCenterForm::updatePrepare(){
 //    qDebug() << trUtf8("Индекс таба2") << ui->tabWidget->indexOf(&tab2);
 //    createTab();
 //    getData2();
-    qDebug() << "Update!";
+    qDebug() << trUtf8("Update!");
 
     QSqlDatabase::database();
     QSqlRelationalTableModel *tableModel = new QSqlRelationalTableModel;
@@ -160,7 +162,7 @@ void prepareCenterForm::createTab(){
     tableViewPrepare->setColumnHidden(0,true);
 //    tableViewPrepare->setColumnHidden(0,true);
 
-    qDebug() << trUtf8("Индекс таба") << ui->tabWidget->indexOf(tab);
+    qDebug() << trUtf8("Tab Index") << ui->tabWidget->indexOf(tab);
 
 
 }

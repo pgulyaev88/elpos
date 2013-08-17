@@ -1,11 +1,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QtCore>
-#include <QtGui>
-#include <QtSql>
-#include <QResizeEvent>
-#include <QMdiSubWindow>
+//#include <QtCore>
+//#include <QtGui>
+//#include <QtSql>
+//#include <QResizeEvent>
+#include <QMdiArea>
+#include <QTranslator>
 #include <QMainWindow>
 
 namespace Ui {
@@ -24,6 +25,7 @@ public:
 
     int width;
     int height;
+    QTranslator mytranslation;
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();

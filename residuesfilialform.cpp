@@ -43,24 +43,25 @@ void residuesFilialForm::timerEvent(QTimerEvent *event){
 
 void residuesFilialForm::startUpdateFilial(){
     timerFilial->start();
-    qDebug() << "Start Update";
+    qDebug() << trUtf8("Start Update");
 }
 
 void residuesFilialForm::stopUpdateFilial(){
     timerFilial->stop();
-    qDebug() << "Stop Update";
+    qDebug() << trUtf8("Stop Update");
 }
 
 void residuesFilialForm::getResiduesListFilial(){
 
     QSqlDatabase::database();
     QSqlQueryModel *dataViewFilial = new QSqlQueryModel;
-    dataViewFilial->setQuery("SELECT * FROM public.\"getResiduesFilial\"(1)");
+    dataViewFilial->setQuery("SELECT * FROM public.\"getresiduesfilial\"(1)");
     dataViewFilial->setHeaderData(0,Qt::Horizontal,trUtf8("ID"));
-    dataViewFilial->setHeaderData(1,Qt::Horizontal, trUtf8("Меню"));
-    dataViewFilial->setHeaderData(2,Qt::Horizontal, trUtf8("Кол-во"));
-    dataViewFilial->setHeaderData(3,Qt::Horizontal, trUtf8("Срочное Кол-во"));
-    dataViewFilial->setHeaderData(4,Qt::Horizontal, trUtf8("Последнее обновление"));
+    dataViewFilial->setHeaderData(1,Qt::Horizontal, trUtf8("Menu"));
+    dataViewFilial->setHeaderData(2,Qt::Horizontal, trUtf8("Count"));
+    dataViewFilial->setHeaderData(3,Qt::Horizontal, trUtf8("Emergency Count"));
+//    dataViewFilial->setHeaderData(4,Qt::Horizontal, trUtf8("Expiry Date"));
+    dataViewFilial->setHeaderData(4,Qt::Horizontal, trUtf8("Latest Update"));
     ui->filialTableView->setModel(dataViewFilial);
     ui->filialTableView->hideColumn(0);
     ui->filialTableView->verticalHeader()->hide();

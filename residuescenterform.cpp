@@ -41,25 +41,26 @@ void residuesCenterForm::timerEvent(QTimerEvent *event){
 
 void residuesCenterForm::startUpdate(){
     timerCenter->start();
-    qDebug() << "Start Update";
+    qDebug() << trUtf8("Start Update");
 }
 
 void residuesCenterForm::stopUpdate(){
     timerCenter->stop();
-    qDebug() << "Stop Update";
+    qDebug() << trUtf8("Stop Update");
 }
 
 void residuesCenterForm::getResiduesList(){
 
     QSqlDatabase::database();
     QSqlQueryModel *dataViewCenter = new QSqlQueryModel;
-    dataViewCenter->setQuery("SELECT * FROM public.\"getResiduesCenter\"()");
+    dataViewCenter->setQuery("SELECT * FROM public.\"getresiduescenter\"()");
     dataViewCenter->setHeaderData(0,Qt::Horizontal, trUtf8("ID"));
-    dataViewCenter->setHeaderData(1,Qt::Horizontal, trUtf8("Меню"));
-    dataViewCenter->setHeaderData(2,Qt::Horizontal, trUtf8("Точка"));
-    dataViewCenter->setHeaderData(3,Qt::Horizontal, trUtf8("Кол-во"));
-    dataViewCenter->setHeaderData(4,Qt::Horizontal, trUtf8("Срочное кол-во"));
-    dataViewCenter->setHeaderData(5,Qt::Horizontal, trUtf8("Последнее обновлние"));
+    dataViewCenter->setHeaderData(1,Qt::Horizontal, trUtf8("Menu"));
+    dataViewCenter->setHeaderData(2,Qt::Horizontal, trUtf8("Filial"));
+    dataViewCenter->setHeaderData(3,Qt::Horizontal, trUtf8("Count"));
+    dataViewCenter->setHeaderData(4,Qt::Horizontal, trUtf8("Emergency Count"));
+//    dataViewCenter->setHeaderData(4,Qt::Horizontal, trUtf8("Expiry Date"));
+    dataViewCenter->setHeaderData(5,Qt::Horizontal, trUtf8("Latest Update"));
     ui->centerTableView->setModel(dataViewCenter);
     ui->centerTableView->hideColumn(0);
     ui->centerTableView->verticalHeader()->hide();

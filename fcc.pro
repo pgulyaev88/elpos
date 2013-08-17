@@ -28,5 +28,8 @@ FORMS    += mainwindow.ui \
     residuesfilialform.ui \
     preparecenterform.ui
 
+TRANSLATIONS += fcc_ru.ts
+
 OTHER_FILES += \
-    fcc.sql
+    fcc.sql \
+    fcc_ru.ts
