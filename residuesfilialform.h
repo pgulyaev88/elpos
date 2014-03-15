@@ -31,6 +31,8 @@ private slots:
     void startUpdateFilial();
     void stopUpdateFilial();
     void dataToTable();
+    void sellDish();
+    void setCountDish(QString tableName, int d);
 
 private:
     QTimer *timerFilial;

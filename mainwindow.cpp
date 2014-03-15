@@ -10,6 +10,7 @@
 #include <QTableView>
 #include <QDebug>
 #include <QMdiSubWindow>
+#include "settings.h"
 #include "preparecenterform.h"
 #include "residuescenterform.h"
 #include "residuesfilialform.h"
@@ -24,58 +25,55 @@ MainWindow::MainWindow(QWidget *parent) :
     mdiArea = new QMdiArea;
     mdiArea->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
     mdiArea->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    mdiArea->setViewMode(QMdiArea::TabbedView);
+    mdiArea->setTabsClosable("true");
+    mdiArea->setTabsMovable("true");
     setCentralWidget(mdiArea);
+
     loadDatabaseConnection();
+
     connect(ui->actionResiduesCenter,SIGNAL(triggered(bool)),this,SLOT(openResiduesCenter()));
     connect(ui->actionResiduesFilial,SIGNAL(triggered(bool)),this,SLOT(openResiduesFilial()));
     connect(ui->actionPrepare,SIGNAL(triggered(bool)),this,SLOT(openPrepareCenter()));
-    int width = QApplication::desktop()->width();
-    int height = QApplication::desktop()->height();
 
-    int widthtmp = width-5;
-    int heighttmp = height-80;
+    QTranslator mytranslation ;
+    mytranslation.load("fcc_ru.ts");
 
-    qDebug() << "width-main: " << width;
-    qDebug() << "height-main: " << height;
-
-    qDebug() << "widthtmp-main: " << widthtmp;
-    qDebug() << "heighttmp-main: " << heighttmp;
-
-//    QTranslator mytranslation ;
-//    mytranslation.load("fcc_ru.ts");
-
-
-    MainWindow::resize(widthtmp,heighttmp);
     MainWindow::showMaximized();
-    getSettings();
+
+//    settings::getSettings();
 //    openPrepareCenter();
+    //TODO: Create timer for check connection database.
+    //TODO: Reconnect if connection lost.
 
 }
 
-void MainWindow::getSettings(){
-    QString fileName = "./param.ini";
-    QSettings *settings = new QSettings(fileName,QSettings::IniFormat);
-    if(settings->value("restaurant/id").isNull()){
-       settings->setValue("restaurant/id",1);
-    } else {
-        idRest = settings->value("restaurant/id").toInt();
-    }
-        qDebug() << trUtf8("Restaurant ID:") << idRest;
+//void MainWindow::getSettings(){
+//    QString fileName = "./param.ini";
+//    QSettings *settings = new QSettings(fileName,QSettings::IniFormat);
+//    if(settings->value("restaurant/id").isNull()){
+//       settings->setValue("restaurant/id",1);
+//    } else {
+//        idRest = settings->value("restaurant/id").toInt();
+//    }
+//        qDebug() << trUtf8("Restaurant ID:") << idRest;
 
-    if(settings->value("restaurant/restname").isNull()){
-        settings->setValue("restaurant/restname","Rest");
-    } else {
-        restName = settings->value("restaurant/restname").toString();
-    }
-        qDebug() << trUtf8("Restaurant Name:") << restName;
-}
+//    if(settings->value("restaurant/restname").isNull()){
+//        settings->setValue("restaurant/restname","Rest");
+//    } else {
+//        restName = settings->value("restaurant/restname").toString();
+//    }
+//        qDebug() << trUtf8("Restaurant Name:") << restName;
+
+//        //TODO: Settings for database.
+//}
 
 void MainWindow::loadDatabaseConnection(){
     QSqlDatabase db = QSqlDatabase::addDatabase("QPSQL");
-    db.setHostName("127.0.0.1");
-    db.setDatabaseName("fcc");
-    db.setUserName("fcc");
-    db.setPassword("fcc");
+    db.setHostName("localhost");
+    db.setDatabaseName("elpos");
+    db.setUserName("elpos");
+    db.setPassword("elpos");
     if (!db.open()){
         qDebug() << QObject::trUtf8("Database error connect") << db.lastError().text();
         QMessageBox messbox;
@@ -84,12 +82,12 @@ void MainWindow::loadDatabaseConnection(){
         messbox.exec();
     } else {
         qDebug() << QObject::trUtf8("Database connect");
-        ui->statusBar->showMessage(trUtf8("Database connect"));
+        ui->statusBar->showMessage(QObject::trUtf8("Database connect"));
     }
 }
 
 void MainWindow::openPrepareCenter(){
-    prepareCenterForm *widget = new prepareCenterForm;
+    preparecenterform *widget = new preparecenterform;
     QMdiSubWindow *subWindow3 = new QMdiSubWindow;
     subWindow3->setWidget(widget);
     subWindow3->setAttribute(Qt::WA_DeleteOnClose);
@@ -116,6 +114,10 @@ void MainWindow::openResiduesFilial(){
     mdiArea->addSubWindow(subWindow2);
     subWindow2->showMaximized();
     subWindow2->show();
+}
+
+void MainWindow::showMessageStatusBar(QString messageBar){
+    ui->statusBar->showMessage(messageBar);
 }
 
 MainWindow::~MainWindow()

@@ -44,75 +44,85 @@
         <translation>Рестораны</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="104"/>
+        <location filename="mainwindow.ui" line="111"/>
         <source>&amp;Quit</source>
-        <translation>Выход</translation>
+        <translation>&amp;Выход</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="107"/>
+        <location filename="mainwindow.ui" line="114"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="115"/>
-        <location filename="mainwindow.ui" line="126"/>
+        <location filename="mainwindow.ui" line="122"/>
+        <location filename="mainwindow.ui" line="133"/>
         <source>Residues</source>
         <translation>Остатки</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="118"/>
+        <location filename="mainwindow.ui" line="125"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="129"/>
+        <location filename="mainwindow.ui" line="136"/>
         <source>Ctrl+F</source>
         <translation>Ctrl+F</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="134"/>
+        <location filename="mainwindow.ui" line="141"/>
         <source>Orders</source>
         <translation>Заявка</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="139"/>
+        <location filename="mainwindow.ui" line="146"/>
         <source>Sales Filial</source>
         <translation>Продажи локальные</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="144"/>
+        <location filename="mainwindow.ui" line="151"/>
         <source>Sales All</source>
         <translation>Продажи общие</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="149"/>
+        <location filename="mainwindow.ui" line="156"/>
         <source>Category</source>
         <translation>Категория</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="154"/>
+        <location filename="mainwindow.ui" line="161"/>
         <source>Users</source>
         <translation>Пользователи</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="159"/>
+        <location filename="mainwindow.ui" line="166"/>
         <source>Roles</source>
         <translation>Роли</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="164"/>
+        <location filename="mainwindow.ui" line="171"/>
         <source>Rights</source>
         <translation>Права</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="169"/>
+        <location filename="mainwindow.ui" line="176"/>
         <source>Prepare</source>
         <translation>Предварительные заказы</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="172"/>
+        <location filename="mainwindow.ui" line="179"/>
         <source>Ctrl+D</source>
         <translation>Ctrl+D</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="63"/>
+        <source>Restaurant ID:</source>
+        <translation>ID Ресторана:</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="70"/>
+        <source>Restaurant Name:</source>
+        <translation>Ресторан:</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="87"/>
@@ -132,63 +142,58 @@
         <source>Database connect</source>
         <translation>Подключение к БД успешно</translation>
     </message>
-    <message utf8="true">
-        <location filename="preparecenterform.cpp" line="69"/>
-        <location filename="preparecenterform.cpp" line="93"/>
-        <location filename="preparecenterform.cpp" line="146"/>
-        <location filename="preparecenterform.cpp" line="205"/>
-        <source>Точка</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <location filename="preparecenterform.cpp" line="70"/>
-        <location filename="preparecenterform.cpp" line="94"/>
-        <location filename="preparecenterform.cpp" line="147"/>
-        <location filename="preparecenterform.cpp" line="206"/>
-        <source>Дата</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
-        <location filename="preparecenterform.cpp" line="71"/>
-        <location filename="preparecenterform.cpp" line="95"/>
-        <location filename="preparecenterform.cpp" line="148"/>
-        <location filename="preparecenterform.cpp" line="207"/>
-        <source>Время</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message utf8="true">
+    <message>
         <location filename="preparecenterform.cpp" line="72"/>
-        <location filename="preparecenterform.cpp" line="96"/>
-        <location filename="preparecenterform.cpp" line="149"/>
-        <location filename="preparecenterform.cpp" line="208"/>
-        <source>Доставка</source>
-        <translation type="unfinished"></translation>
+        <source>Restaurant</source>
+        <translation></translation>
     </message>
-    <message utf8="true">
+    <message>
         <location filename="preparecenterform.cpp" line="73"/>
-        <location filename="preparecenterform.cpp" line="97"/>
-        <location filename="preparecenterform.cpp" line="150"/>
-        <location filename="preparecenterform.cpp" line="209"/>
-        <source>Вынос</source>
-        <translation type="unfinished"></translation>
+        <source>Date</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="preparecenterform.cpp" line="74"/>
+        <source>Time</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="preparecenterform.cpp" line="75"/>
+        <source>Delivery</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="preparecenterform.cpp" line="76"/>
+        <source>Takeaway</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="preparecenterform.cpp" line="83"/>
+        <source>Start Prepare Timer</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="preparecenterform.cpp" line="118"/>
+        <source>Stop Prepare Timer</source>
+        <translation></translation>
     </message>
 </context>
 <context>
-    <name>prepareCenterForm</name>
-    <message utf8="true">
+    <name>preparecenterform</name>
+    <message>
         <location filename="preparecenterform.ui" line="14"/>
-        <source>Предвариловки</source>
-        <translation type="unfinished"></translation>
+        <source>Prepare Orders</source>
+        <translation>Предварительные заказы</translation>
     </message>
-    <message utf8="true">
-        <location filename="preparecenterform.cpp" line="163"/>
-        <source>Индекс таба</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="preparecenterform.ui" line="45"/>
+        <source>Previous Day</source>
+        <translation>Предыдущий день</translation>
     </message>
-    <message utf8="true">
-        <location filename="preparecenterform.cpp" line="221"/>
-        <source>Индекс таба2</source>
-        <translation type="unfinished"></translation>
+    <message>
+        <location filename="preparecenterform.ui" line="78"/>
+        <source>Next Day</source>
+        <translation>Следующий день</translation>
     </message>
 </context>
 <context>
@@ -196,42 +201,52 @@
     <message>
         <location filename="residuescenterform.ui" line="17"/>
         <source>Residues Center</source>
-        <translation type="Остатки центр"></translation>
+        <translation>Остатки Центр</translation>
     </message>
     <message>
-        <location filename="residuescenterform.ui" line="39"/>
+        <location filename="residuescenterform.ui" line="32"/>
         <source>&amp;Update</source>
-        <translation type="Обновить"></translation>
+        <translation>&amp;Обновить</translation>
+    </message>
+    <message>
+        <location filename="residuescenterform.cpp" line="44"/>
+        <source>Start Update</source>
+        <translation>Таймер &quot;Остатки Центр&quot; включен</translation>
+    </message>
+    <message>
+        <location filename="residuescenterform.cpp" line="49"/>
+        <source>Stop Update</source>
+        <translation>Таймер &quot;Остатки Центр&quot; остановлен</translation>
     </message>
     <message>
         <location filename="residuescenterform.cpp" line="57"/>
         <source>ID</source>
-        <translation type="Меню ID"></translation>
+        <translation>ИД</translation>
     </message>
     <message>
         <location filename="residuescenterform.cpp" line="58"/>
         <source>Menu</source>
-        <translation type="Меню"></translation>
+        <translation>Меню</translation>
     </message>
     <message>
         <location filename="residuescenterform.cpp" line="59"/>
         <source>Filial</source>
-        <translation type="Филиал"></translation>
+        <translation>Ресторан</translation>
     </message>
     <message>
         <location filename="residuescenterform.cpp" line="60"/>
         <source>Count</source>
-        <translation type="Кол-во"></translation>
+        <translation>Кол-во</translation>
     </message>
     <message>
         <location filename="residuescenterform.cpp" line="61"/>
         <source>Emergency Count</source>
-        <translation type="Срочное кол-во"></translation>
+        <translation>Ср. Кол-во</translation>
     </message>
     <message>
         <location filename="residuescenterform.cpp" line="63"/>
         <source>Latest Update</source>
-        <translation type="Последнее обновление"></translation>
+        <translation>Последнее обновление</translation>
     </message>
 </context>
 <context>
@@ -242,34 +257,44 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="residuesfilialform.ui" line="26"/>
+        <location filename="residuesfilialform.ui" line="31"/>
         <source>&amp;Sell</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Продать</translation>
+    </message>
+    <message>
+        <location filename="residuesfilialform.cpp" line="46"/>
+        <source>Start Update</source>
+        <translation type="unfinished">Таймер &quot;Остатки Центр&quot; включен</translation>
+    </message>
+    <message>
+        <location filename="residuesfilialform.cpp" line="51"/>
+        <source>Stop Update</source>
+        <translation type="unfinished">Таймер &quot;Остатки Центр&quot; остановлен</translation>
     </message>
     <message>
         <location filename="residuesfilialform.cpp" line="59"/>
         <source>ID</source>
-        <translation type="unfinished"></translation>
+        <translation>ИД</translation>
     </message>
     <message>
         <location filename="residuesfilialform.cpp" line="60"/>
         <source>Menu</source>
-        <translation type="unfinished"></translation>
+        <translation>Меню</translation>
     </message>
     <message>
         <location filename="residuesfilialform.cpp" line="61"/>
         <source>Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Кол-во</translation>
     </message>
     <message>
         <location filename="residuesfilialform.cpp" line="62"/>
         <source>Emergency Count</source>
-        <translation type="unfinished"></translation>
+        <translation>Ср.Кол-во</translation>
     </message>
     <message>
         <location filename="residuesfilialform.cpp" line="64"/>
         <source>Latest Update</source>
-        <translation type="unfinished"></translation>
+        <translation>Последнее обновление</translation>
     </message>
 </context>
 </TS>

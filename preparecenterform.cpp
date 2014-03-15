@@ -1,230 +1,122 @@
+#include "preparecenterform.h"
+#include "mainwindow.h"
+#include "ui_preparecenterform.h"
+#include <QDebug>
 #include <QtCore>
 #include <QtGui>
 #include <QtSql>
 #include <QTimer>
 #include <QStatusBar>
-#include "preparecenterform.h"
-#include "ui_preparecenterform.h"
+#include <QDateEdit>
 
-prepareCenterForm::prepareCenterForm(QWidget *parent) :
+preparecenterform::preparecenterform(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::prepareCenterForm)
+    ui(new Ui::preparecenterform)
 {
     ui->setupUi(this);
 
-    int widthtmpx = QApplication::desktop()->width();
-    int heighttmpx = QApplication::desktop()->height();
-
-    int widthx = widthtmpx-5;
-    int heightx = heighttmpx-80;
-
-    qDebug() << "width-prepare: " << widthx;
-    qDebug() << "height-prepare: " << heightx;
-
-//    prepareCenterForm::showMaximized();
     timerPrepare = new QTimer(this);
-    connect(timerPrepare, SIGNAL(timeout()),this,SLOT(updatePrepare()));
+    connect(timerPrepare, SIGNAL(timeout()),this,SLOT(getData()));
     timerPrepare->setInterval(15000);
-//    getDate();
-    createTab();
-    getData2();
+//    timerPrepare->setInterval(3000);
+    ui->dateEdit->setDisplayFormat("dd.MM.yyyy");
+//    connect(showMessageStatusBar(),SIGNAL(),MainWindow,SLOT());
+//    showMessageStatusBar("test");
+    connect(ui->dateEdit, SIGNAL(dateChanged(QDate)),this,SLOT(getData()));
+    connect(ui->buttonNextDay, SIGNAL(clicked(bool)),this,SLOT(nextDay()));
+    connect(ui->buttonPreviousDay, SIGNAL(clicked(bool)),this,SLOT(previousDay()));
+//    ui->gridLayoutWidget->showMaximized();
+    ui->tableViewPrepare->showMaximized();
+    ui->dateEdit->calendarWidget()->setFirstDayOfWeek(Qt::DayOfWeek(1));
+    getData();
     timerPrepare->start();
 
+    //TODO: Create settings from calendar date
 }
 
-void prepareCenterForm::timerEvent(QTimerEvent *event){
+void preparecenterform::timerEvent(QTimerEvent *event){
     if(event->timerId() == timerPrepare->timerId()){
         ++step;
-        updatePrepare();
+        updateData();
     }
     else {
         QObject::timerEvent(event);
     }
 }
 
-void prepareCenterForm::startUpdate(){
-    timerPrepare->start();
-    qDebug() << trUtf8("Start Timer");
-}
 
-void prepareCenterForm::stopUpdate(){
+void preparecenterform::getData(){
+    qDebug() << ui->dateEdit->date();
     timerPrepare->stop();
-    qDebug() << trUtf8("Stop Timer");
-}
+    qDebug() << "Timer Stop";
 
-void prepareCenterForm::updatePrepare(){
-//    ui->tabWidget->removeTab(ui->tabWidget->indexOf(0));
-//    qDebug() << trUtf8("Индекс таба2") << ui->tabWidget->indexOf(&tab);
-//    qDebug() << trUtf8("Индекс таба2") << ui->tabWidget->indexOf(&tab2);
-//    createTab();
-//    getData2();
-    qDebug() << trUtf8("Update!");
+    QDate curDate = ui->dateEdit->date();
 
     QSqlDatabase::database();
     QSqlRelationalTableModel *tableModel = new QSqlRelationalTableModel;
-    tableModel->setTable("prepare");
+    tableModel->setTable("prepares");
     tableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    tableModel->setRelation(1, QSqlRelation("users","users_id","name"));
-    tableModel->setRelation(2, QSqlRelation("dates","dates_id","name"));
-    tableModel->setRelation(3, QSqlRelation("times","times_id","name"));
+    tableModel->setJoinMode(QSqlRelationalTableModel::LeftJoin);
+    tableModel->setRelation(1, QSqlRelation("restaurant","id","named"));
+//    tableModel->setRelation(2, QSqlRelation("dates","dates_id","names"));
+    tableModel->setRelation(3, QSqlRelation("times","id","hours"));
     tableModel->select();
-    tableModel->setHeaderData(1,Qt::Horizontal, QObject::trUtf8("Точка"));
-    tableModel->setHeaderData(2,Qt::Horizontal, QObject::trUtf8("Дата"));
-    tableModel->setHeaderData(3,Qt::Horizontal, QObject::trUtf8("Время"));
-    tableModel->setHeaderData(4,Qt::Horizontal, QObject::trUtf8("Доставка"));
-    tableModel->setHeaderData(5,Qt::Horizontal, QObject::trUtf8("Вынос"));
+//    isodate = curDate.toString(Qt::ISODate);
+    dataFilter = QString("%1'%2'").arg("prepares.dates=").arg(curDate.toString(Qt::ISODate));
+    qDebug() << dataFilter;
+    tableModel->setFilter(dataFilter);
+//    tableModel->setFilter("prepares.dates='22.12.2013'");
+    qDebug() << tableModel->query().lastQuery();
+
+
+
+
+    tableModel->setHeaderData(1,Qt::Horizontal, QObject::trUtf8("Restaurant"));
+    tableModel->setHeaderData(2,Qt::Horizontal, QObject::trUtf8("Date"));
+    tableModel->setHeaderData(3,Qt::Horizontal, QObject::trUtf8("Time"));
+    tableModel->setHeaderData(4,Qt::Horizontal, QObject::trUtf8("Delivery"));
+    tableModel->setHeaderData(5,Qt::Horizontal, QObject::trUtf8("Takeaway"));
     tableModel->sort(0,Qt::AscendingOrder);
-//    tableModel->sort(2,Qt::AscendingOrder);
-//    tableViewPrepare->resize(widthx2,heightx2);
 
-    tableViewPrepare->setModel(tableModel);
-    tableViewPrepare->verticalHeader()->hide();
-    tableViewPrepare->setColumnHidden(0,true);
-//    tableViewPrepare->setColumnHidden(0,true);
+    ui->tableViewPrepare->setModel(tableModel);
+    ui->tableViewPrepare->verticalHeader()->hide();
+    ui->tableViewPrepare->setColumnHidden(0,true);
+    timerPrepare->start();
+    qDebug() << QObject::trUtf8("Start Prepare Timer");
+}
 
-//    qDebug() << trUtf8("Индекс таба") << ui->tabWidget->indexOf(tab);
-
-    QSqlDatabase::database();
-    QSqlRelationalTableModel *tableModel2 = new QSqlRelationalTableModel;
-    tableModel2->setTable("prepare2");
-    tableModel2->setEditStrategy(QSqlTableModel::OnFieldChange);
-    tableModel2->setRelation(1, QSqlRelation("users","users_id","name"));
-    tableModel2->setRelation(2, QSqlRelation("dates","dates_id","name"));
-    tableModel2->setRelation(3, QSqlRelation("times","times_id","name"));
-    tableModel2->select();
-    tableModel2->setHeaderData(1,Qt::Horizontal, QObject::trUtf8("Точка"));
-    tableModel2->setHeaderData(2,Qt::Horizontal, QObject::trUtf8("Дата"));
-    tableModel2->setHeaderData(3,Qt::Horizontal, QObject::trUtf8("Время"));
-    tableModel2->setHeaderData(4,Qt::Horizontal, QObject::trUtf8("Доставка"));
-    tableModel2->setHeaderData(5,Qt::Horizontal, QObject::trUtf8("Вынос"));
-    tableModel2->sort(0,Qt::AscendingOrder);
-//    tableViewPrepare->resize(widthx2,heightx2);
-
-//    qDebug() << "width-prepare3: " << widthx;
-//    /qDebug() << "height-prepare3: " << heightx;
-
-    tableViewPrepare->setModel(tableModel2);
-    tableViewPrepare->verticalHeader()->hide();
-    tableViewPrepare->setColumnHidden(0,true);
-
-//    tableViewPrepare->setColumnHidden(0,true);
-//    qDebug() << trUtf8("Индекс таба2") << ui->tabWidget->indexOf(tab2);
+void preparecenterform::updateData(){
 
 }
 
-void prepareCenterForm::createTab(){
-    int widthtmpx = QApplication::desktop()->width();
-    int heighttmpx = QApplication::desktop()->height();
+void preparecenterform::nextDay(){
+    QDate currentDate = ui->dateEdit->date();
+    qDebug() << currentDate;
+    qDebug() << currentDate.toString(Qt::ISODate);
+    QDate nextDate = currentDate.addDays(1);
+    qDebug() << nextDate;
+    qDebug() << nextDate.toString(Qt::ISODate);
+    ui->dateEdit->setDate(nextDate);
+}
 
-    int widthx = widthtmpx-5;
-    int heightx = heighttmpx-90;
-
-//    qDebug() << "width-prepare: " << widthx;
-//    qDebug() << "height-prepare: " << heightx;
-
-
-    QWidget *tab = new QWidget;
-    tableViewPrepare = new QTableView(tab);
-    ui->tabWidget->addTab(tab,"07");
-    ui->tabWidget->setCurrentIndex(0);
-    ui->tabWidget->setMouseTracking(true);
-    ui->tabWidget->resize(widthx,heightx);
-
-
-    int widthx2 = widthtmpx-10;
-    int heightx2 = heighttmpx-135;
-
-//    qDebug() << "width-prepare2: " << widthx2;
-//    qDebug() << "height-prepare2: " << heightx2;
-
-    QSqlDatabase::database();
-    QSqlRelationalTableModel *tableModel = new QSqlRelationalTableModel;
-    tableModel->setTable("prepare");
-    tableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    tableModel->setRelation(1, QSqlRelation("users","users_id","name"));
-    tableModel->setRelation(2, QSqlRelation("dates","dates_id","name"));
-    tableModel->setRelation(3, QSqlRelation("times","times_id","name"));
-    tableModel->select();
-    tableModel->setHeaderData(1,Qt::Horizontal, QObject::trUtf8("Точка"));
-    tableModel->setHeaderData(2,Qt::Horizontal, QObject::trUtf8("Дата"));
-    tableModel->setHeaderData(3,Qt::Horizontal, QObject::trUtf8("Время"));
-    tableModel->setHeaderData(4,Qt::Horizontal, QObject::trUtf8("Доставка"));
-    tableModel->setHeaderData(5,Qt::Horizontal, QObject::trUtf8("Вынос"));
-    tableModel->sort(0,Qt::AscendingOrder);
-//    tableModel->sort(2,Qt::AscendingOrder);
-    tableViewPrepare->resize(widthx2,heightx2);
-
-    qDebug() << "width-prepare3: " << widthx;
-    qDebug() << "height-prepare3: " << heightx;
-
-    tableViewPrepare->setModel(tableModel);
-    tableViewPrepare->verticalHeader()->hide();
-    tableViewPrepare->setColumnHidden(0,true);
-//    tableViewPrepare->setColumnHidden(0,true);
-
-    qDebug() << trUtf8("Tab Index") << ui->tabWidget->indexOf(tab);
-
+void preparecenterform::previousDay(){
+    QDate currentDate = ui->dateEdit->date();
+    qDebug() << currentDate;
+    qDebug() << currentDate.toString(Qt::ISODate);
+    QDate previousDate = currentDate.addDays(-1);
+    qDebug() << previousDate;
+    qDebug() << previousDate.toString(Qt::ISODate);
+    ui->dateEdit->setDate(previousDate);
 
 }
 
-void prepareCenterForm::getData(){
-
+void preparecenterform::showMessageStatusBar(QString){
+//    MainWindow::messagesStatusBar(msg);
 }
 
-void prepareCenterForm::getData2(){
-    int widthtmpx = QApplication::desktop()->width();
-    int heighttmpx = QApplication::desktop()->height();
-
-    int widthx = widthtmpx-5;
-    int heightx = heighttmpx-110;
-
-//    qDebug() << "width-prepare: " << widthx;
-//    qDebug() << "height-prepare: " << heightx;
-
-
-    QWidget *tab2 = new QWidget;
-    tableViewPrepare = new QTableView(tab2);
-    ui->tabWidget->addTab(tab2,"08");
-//    ui->tabWidget->setCurrentIndex(1);
-    ui->tabWidget->setMouseTracking(true);
-    ui->tabWidget->resize(widthx,heightx);
-
-
-    int widthx2 = widthtmpx-10;
-    int heightx2 = heighttmpx-135;
-
-    qDebug() << "width-prepare2: " << widthx2;
-    qDebug() << "height-prepare2: " << heightx2;
-
-    QSqlDatabase::database();
-    QSqlRelationalTableModel *tableModel = new QSqlRelationalTableModel;
-    tableModel->setTable("prepare2");
-    tableModel->setEditStrategy(QSqlTableModel::OnFieldChange);
-    tableModel->setRelation(1, QSqlRelation("users","users_id","name"));
-    tableModel->setRelation(2, QSqlRelation("dates","dates_id","name"));
-    tableModel->setRelation(3, QSqlRelation("times","times_id","name"));
-    tableModel->select();
-    tableModel->setHeaderData(1,Qt::Horizontal, QObject::trUtf8("Точка"));
-    tableModel->setHeaderData(2,Qt::Horizontal, QObject::trUtf8("Дата"));
-    tableModel->setHeaderData(3,Qt::Horizontal, QObject::trUtf8("Время"));
-    tableModel->setHeaderData(4,Qt::Horizontal, QObject::trUtf8("Доставка"));
-    tableModel->setHeaderData(5,Qt::Horizontal, QObject::trUtf8("Вынос"));
-    tableModel->sort(0,Qt::AscendingOrder);
-    tableViewPrepare->resize(widthx2,heightx2);
-
-    qDebug() << "width-prepare3: " << widthx;
-    qDebug() << "height-prepare3: " << heightx;
-
-    tableViewPrepare->setModel(tableModel);
-    tableViewPrepare->verticalHeader()->hide();
-    tableViewPrepare->setColumnHidden(0,true);
-
-//    tableViewPrepare->setColumnHidden(0,true);
-    qDebug() << trUtf8("Индекс таба2") << ui->tabWidget->indexOf(tab2);
-
-}
-
-prepareCenterForm::~prepareCenterForm()
+preparecenterform::~preparecenterform()
 {
+    timerPrepare->stop();
+    qDebug() << QObject::trUtf8("Stop Prepare Timer");
     delete ui;
 }

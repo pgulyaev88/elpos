@@ -16,12 +16,14 @@ SOURCES += main.cpp\
         mainwindow.cpp \
     residuescenterform.cpp \
     residuesfilialform.cpp \
-    preparecenterform.cpp
+    preparecenterform.cpp \
+    settings.cpp
 
 HEADERS  += mainwindow.h \
     residuescenterform.h \
     residuesfilialform.h \
-    preparecenterform.h
+    preparecenterform.h \
+    settings.h
 
 FORMS    += mainwindow.ui \
     residuescenterform.ui \

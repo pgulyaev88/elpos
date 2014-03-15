@@ -22,6 +22,7 @@ protected:
 public:
     int idRest;
     QString restName;
+    QString messageBar;
 
     int width;
     int height;
@@ -35,7 +36,8 @@ public slots:
     void openResiduesCenter();
     void openResiduesFilial();
     void openPrepareCenter();
-    void getSettings();
+//    void getSettings();
+    void showMessageStatusBar(QString messageBar);
     
 private:
     Ui::MainWindow *ui;

@@ -9,37 +9,55 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>744</width>
-    <height>504</height>
+    <width>742</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Residues Center</string>
   </property>
-  <widget class="QTableView" name="centerTableView">
-   <property name="geometry">
-    <rect>
-     <x>10</x>
-     <y>10</y>
-     <width>721</width>
-     <height>451</height>
-    </rect>
-   </property>
-  </widget>
-  <widget class="QPushButton" name="pushButtonUpdate">
-   <property name="geometry">
-    <rect>
-     <x>660</x>
-     <y>470</y>
-     <width>75</width>
-     <height>23</height>
-    </rect>
-   </property>
-   <property name="text">
-    <string>&amp;Update</string>
-   </property>
-  </widget>
+  <layout class="QGridLayout" name="gridLayout_3">
+   <item row="0" column="0">
+    <layout class="QGridLayout" name="gridLayout_2">
+     <item row="1" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="3" column="0">
+          <widget class="QTableView" name="centerTableView">
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+           <property name="gridStyle">
+            <enum>Qt::SolidLine</enum>
+           </property>
+           <property name="sortingEnabled">
+            <bool>false</bool>
+           </property>
+           <attribute name="horizontalHeaderDefaultSectionSize">
+            <number>120</number>
+           </attribute>
+           <attribute name="verticalHeaderDefaultSectionSize">
+            <number>25</number>
+           </attribute>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QPushButton" name="pushButtonUpdate">
+           <property name="text">
+            <string>&amp;Update</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+  </layout>
  </widget>
+ <layoutdefault spacing="6" margin="9"/>
  <resources/>
  <connections/>
 </ui>

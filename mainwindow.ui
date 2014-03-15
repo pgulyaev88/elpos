@@ -115,6 +115,9 @@
    </property>
   </action>
   <action name="actionResiduesCenter">
+   <property name="checkable">
+    <bool>false</bool>
+   </property>
    <property name="enabled">
     <bool>true</bool>
    </property>
